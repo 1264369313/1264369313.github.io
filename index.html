@@ -3,407 +3,838 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wang Jue | Personal Homepage</title>
-  <meta name="description" content="Wang Jue's personal homepage" />
+  <title>MBTI 人格测试</title>
   <style>
     :root {
-      --bg: #f7f9fc;
-      --card: #ffffff;
-      --text: #1f2937;
+      --bg1: #667eea;
+      --bg2: #764ba2;
+      --card: rgba(255, 255, 255, 0.12);
+      --card-solid: rgba(255, 255, 255, 0.92);
+      --text: #ffffff;
+      --dark: #1f2937;
       --muted: #6b7280;
-      --line: #e5e7eb;
-      --accent: #2563eb;
-      --accent-hover: #1d4ed8;
-      --max-width: 960px;
-      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-      --radius: 18px;
+      --accent: #8b5cf6;
+      --accent2: #06b6d4;
+      --success: #22c55e;
+      --shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+      --radius: 20px;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: linear-gradient(135deg, var(--bg1), var(--bg2));
+      min-height: 100vh;
       color: var(--text);
-      background: var(--bg);
-      line-height: 1.7;
+      overflow-x: hidden;
     }
 
-    a {
-      color: var(--accent);
-      text-decoration: none;
+    .bg-shape {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.25;
+      z-index: 0;
     }
 
-    a:hover {
-      color: var(--accent-hover);
+    .shape1 {
+      width: 250px;
+      height: 250px;
+      background: #ffffff;
+      top: 40px;
+      left: -60px;
+    }
+
+    .shape2 {
+      width: 220px;
+      height: 220px;
+      background: #06b6d4;
+      bottom: 60px;
+      right: -40px;
+    }
+
+    .shape3 {
+      width: 180px;
+      height: 180px;
+      background: #ec4899;
+      top: 45%;
+      left: 65%;
     }
 
     .container {
-      width: min(var(--max-width), calc(100% - 32px));
+      position: relative;
+      z-index: 1;
+      max-width: 920px;
       margin: 0 auto;
-    }
-
-    header {
-      background: linear-gradient(135deg, #eef4ff 0%, #f9fbff 100%);
-      border-bottom: 1px solid var(--line);
-    }
-
-    .nav {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px 0;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .brand {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--text);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 18px;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .nav-links a:hover {
-      color: var(--accent);
+      padding: 32px 16px 60px;
     }
 
     .hero {
-      padding: 68px 0 54px;
+      text-align: center;
+      padding: 30px 10px 25px;
     }
 
-    .hero-card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: 24px;
-      padding: 38px 30px;
-      box-shadow: var(--shadow);
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      margin: 0 0 12px;
+      font-weight: 800;
+      letter-spacing: 1px;
     }
 
-    .tag {
-      display: inline-block;
-      margin-bottom: 16px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: #eaf1ff;
-      color: var(--accent);
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    h1 {
-      margin: 0 0 14px;
-      font-size: clamp(2rem, 4vw, 3.2rem);
-      line-height: 1.15;
-    }
-
-    .subtitle {
-      margin: 0 0 18px;
-      color: var(--muted);
+    .hero p {
+      margin: 0 auto;
+      max-width: 680px;
+      color: rgba(255, 255, 255, 0.9);
       font-size: 1.05rem;
-      max-width: 760px;
+      line-height: 1.8;
     }
 
-    .hero-buttons {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-top: 24px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 10px 18px;
-      border-radius: 12px;
-      font-weight: 600;
-      border: 1px solid var(--line);
-      background: white;
-      color: var(--text);
-    }
-
-    .btn.primary {
-      background: var(--accent);
-      color: white;
-      border-color: var(--accent);
-    }
-
-    .btn.primary:hover {
-      background: var(--accent-hover);
-      color: white;
-    }
-
-    section {
-      padding: 28px 0;
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      margin: 0 0 16px;
-    }
-
-    .card {
+    .glass-card {
+      backdrop-filter: blur(18px);
       background: var(--card);
-      border: 1px solid var(--line);
+      border: 1px solid rgba(255, 255, 255, 0.22);
       border-radius: var(--radius);
-      padding: 24px;
       box-shadow: var(--shadow);
     }
 
-    .grid {
-      display: grid;
-      gap: 18px;
-    }
-
-    .two-col {
-      grid-template-columns: 1.2fr 0.8fr;
-    }
-
-    .item + .item {
-      margin-top: 18px;
-      padding-top: 18px;
-      border-top: 1px solid var(--line);
-    }
-
-    .item-title {
-      margin: 0 0 6px;
-      font-size: 1.08rem;
-      font-weight: 700;
-    }
-
-    .item-meta {
-      color: var(--muted);
-      font-size: 0.95rem;
-      margin-bottom: 8px;
-    }
-
-    .muted {
-      color: var(--muted);
-    }
-
-    ul {
-      margin: 10px 0 0 20px;
-      padding: 0;
-    }
-
-    .pill-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .pill {
-      padding: 8px 12px;
-      background: #f3f6fb;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      font-size: 0.92rem;
-      color: #374151;
-    }
-
-    .contact-list {
-      display: grid;
-      gap: 10px;
-      margin-top: 12px;
-    }
-
-    footer {
-      padding: 28px 0 48px;
-      color: var(--muted);
-      font-size: 0.92rem;
+    .intro-card {
+      padding: 24px;
+      margin-top: 26px;
       text-align: center;
     }
 
-    @media (max-width: 780px) {
-      .two-col {
+    .intro-card h2 {
+      margin-top: 0;
+      font-size: 1.5rem;
+    }
+
+    .intro-card p {
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.8;
+      margin-bottom: 22px;
+    }
+
+    .btn {
+      border: none;
+      border-radius: 999px;
+      padding: 14px 26px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.25s;
+      font-weight: 700;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #ffffff, #e9d5ff);
+      color: #4c1d95;
+      box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px rgba(255, 255, 255, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.18);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.24);
+    }
+
+    .test-section {
+      display: none;
+      margin-top: 28px;
+    }
+
+    .progress-wrap {
+      margin-bottom: 18px;
+    }
+
+    .progress-text {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 12px;
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #22d3ee, #c084fc);
+      border-radius: 999px;
+      transition: 0.3s;
+    }
+
+    .question-card {
+      padding: 26px;
+    }
+
+    .question-number {
+      font-size: 0.95rem;
+      color: rgba(255, 255, 255, 0.85);
+      margin-bottom: 10px;
+    }
+
+    .question-text {
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .options {
+      display: grid;
+      gap: 16px;
+    }
+
+    .option {
+      position: relative;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      padding: 18px 18px 18px 54px;
+      cursor: pointer;
+      transition: 0.25s;
+      line-height: 1.6;
+      user-select: none;
+    }
+
+    .option:hover {
+      transform: translateY(-2px);
+      background: rgba(255, 255, 255, 0.22);
+    }
+
+    .option input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .option .radio {
+      position: absolute;
+      top: 20px;
+      left: 18px;
+      width: 22px;
+      height: 22px;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      border-radius: 50%;
+      transition: 0.2s;
+    }
+
+    .option.selected {
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.55);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    }
+
+    .option.selected .radio {
+      border-color: #fff;
+      background: radial-gradient(circle at center, #fff 0 42%, transparent 46%);
+    }
+
+    .nav-buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 18px;
+      flex-wrap: wrap;
+    }
+
+    .result-section {
+      display: none;
+      margin-top: 30px;
+    }
+
+    .result-card {
+      background: var(--card-solid);
+      color: var(--dark);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 30px 24px;
+    }
+
+    .result-top {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .result-top h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .mbti-type {
+      font-size: clamp(2.4rem, 6vw, 4rem);
+      font-weight: 900;
+      margin: 10px 0 8px;
+      background: linear-gradient(135deg, #7c3aed, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .mbti-name {
+      font-size: 1.25rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+
+    .mbti-desc {
+      color: #4b5563;
+      max-width: 720px;
+      margin: 0 auto;
+      line-height: 1.85;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 26px;
+    }
+
+    .result-box {
+      background: #f8fafc;
+      border: 1px solid #e5e7eb;
+      border-radius: 16px;
+      padding: 18px;
+    }
+
+    .result-box h3 {
+      margin: 0 0 10px;
+      font-size: 1.02rem;
+      color: #111827;
+    }
+
+    .result-box p {
+      margin: 0;
+      color: #4b5563;
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .dimension-list {
+      display: grid;
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    .dimension-item {
+      background: #f8fafc;
+      border-radius: 16px;
+      padding: 16px;
+      border: 1px solid #e5e7eb;
+    }
+
+    .dimension-label {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-weight: 700;
+      color: #111827;
+    }
+
+    .dimension-bar {
+      height: 12px;
+      background: #e5e7eb;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .dimension-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #06b6d4, #8b5cf6);
+    }
+
+    .result-actions {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+
+    .footer {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.78);
+      margin-top: 28px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 700px) {
+      .result-grid {
         grid-template-columns: 1fr;
       }
 
-      .hero-card {
-        padding: 28px 20px;
+      .question-text {
+        font-size: 1.18rem;
+      }
+
+      .question-card,
+      .result-card,
+      .intro-card {
+        padding: 20px 16px;
       }
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="container">
-      <nav class="nav">
-        <div class="brand">Wang Jue</div>
-        <div class="nav-links">
-          <a href="#about">About</a>
-          <a href="#research">Research</a>
-          <a href="#projects">Projects</a>
-          <a href="#cv">CV</a>
-          <a href="#contact">Contact</a>
-        </div>
-      </nav>
+  <div class="bg-shape shape1"></div>
+  <div class="bg-shape shape2"></div>
+  <div class="bg-shape shape3"></div>
 
-      <div class="hero">
-        <div class="hero-card">
-          <div class="tag">Personal Homepage</div>
-          <h1>Hi, I'm Wang Jue.</h1>
-          <p class="subtitle">
-            I am a senior undergraduate student in Mathematics and Applied Mathematics at
-            Beijing Normal University. My research interests include network coding,
-            information theory, and related problems in communication networks.
-          </p>
-          <div class="hero-buttons">
-            <a class="btn primary" href="#research">View Research</a>
-            <a class="btn" href="#contact">Contact Me</a>
-          </div>
+  <div class="container">
+    <section class="hero">
+      <h1>MBTI 人格测试</h1>
+      <p>
+        通过一组简短的问题，探索你在能量来源、信息获取、决策方式和生活组织上的偏好，
+        了解自己更接近哪一种 MBTI 人格类型。
+      </p>
+    </section>
+
+    <section class="intro-card glass-card" id="intro">
+      <h2>开始你的性格探索</h2>
+      <p>
+        本测试包含 12 道题，每题请选择更符合你日常行为和偏好的选项。
+        测试结果仅供参考，但它能帮助你更好地认识自己的思维模式与沟通风格。
+      </p>
+      <button class="btn btn-primary" onclick="startTest()">开始测试</button>
+    </section>
+
+    <section class="test-section" id="testSection">
+      <div class="progress-wrap">
+        <div class="progress-text">
+          <span id="progressLabel">第 1 / 12 题</span>
+          <span id="progressPercent">8%</span>
+        </div>
+        <div class="progress-bar">
+          <div class="progress" id="progressBar"></div>
         </div>
       </div>
+
+      <div class="glass-card question-card">
+        <div class="question-number" id="questionNumber">问题 1</div>
+        <div class="question-text" id="questionText"></div>
+
+        <div class="options" id="options"></div>
+
+        <div class="nav-buttons">
+          <button class="btn btn-secondary" id="prevBtn" onclick="prevQuestion()">上一题</button>
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()">下一题</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="result-section" id="resultSection">
+      <div class="result-card">
+        <div class="result-top">
+          <h2>你的 MBTI 类型是</h2>
+          <div class="mbti-type" id="mbtiType">INTJ</div>
+          <div class="mbti-name" id="mbtiName">建筑师</div>
+          <p class="mbti-desc" id="mbtiDesc"></p>
+        </div>
+
+        <div class="result-grid">
+          <div class="result-box">
+            <h3>优势特质</h3>
+            <p id="mbtiStrength"></p>
+          </div>
+          <div class="result-box">
+            <h3>潜在挑战</h3>
+            <p id="mbtiWeakness"></p>
+          </div>
+        </div>
+
+        <div class="dimension-list">
+          <div class="dimension-item">
+            <div class="dimension-label">
+              <span id="eiLabel">E / I</span>
+              <span id="eiValue"></span>
+            </div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" id="eiBar"></div>
+            </div>
+          </div>
+
+          <div class="dimension-item">
+            <div class="dimension-label">
+              <span id="snLabel">S / N</span>
+              <span id="snValue"></span>
+            </div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" id="snBar"></div>
+            </div>
+          </div>
+
+          <div class="dimension-item">
+            <div class="dimension-label">
+              <span id="tfLabel">T / F</span>
+              <span id="tfValue"></span>
+            </div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" id="tfBar"></div>
+            </div>
+          </div>
+
+          <div class="dimension-item">
+            <div class="dimension-label">
+              <span id="jpLabel">J / P</span>
+              <span id="jpValue"></span>
+            </div>
+            <div class="dimension-bar">
+              <div class="dimension-fill" id="jpBar"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="restartTest()">重新测试</button>
+          <button class="btn btn-secondary" onclick="window.print()">打印结果</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      © 2026 MBTI Personality Test | Designed for your personal homepage
     </div>
-  </header>
+  </div>
 
-  <main class="container">
-    <section id="about">
-      <div class="card">
-        <h2 class="section-title">About</h2>
-        <p>
-          Welcome to my personal homepage. I am currently completing my undergraduate studies
-          at Beijing Normal University and will continue my graduate studies in the area of
-          communications. My academic interests mainly focus on network coding, information
-          recovery, combinatorial optimization, and symbolic computation over finite fields.
-        </p>
-        <p>
-          This website collects my research interests, selected projects, and contact
-          information. You may also use this page as an entry point to my CV, GitHub
-          repositories, and future academic updates.
-        </p>
-      </div>
-    </section>
+  <script>
+    const questions = [
+      {
+        text: "在聚会或社交场合中，你通常会：",
+        options: [
+          { text: "主动与很多人交流，结束后会感到充满能量", dimension: "E" },
+          { text: "更喜欢和少数熟人深入交谈，结束后需要独处恢复", dimension: "I" }
+        ]
+      },
+      {
+        text: "你更倾向于关注：",
+        options: [
+          { text: "眼前真实、具体、可观察的事实和细节", dimension: "S" },
+          { text: "未来的可能性、概念和整体趋势", dimension: "N" }
+        ]
+      },
+      {
+        text: "做决定时，你更看重：",
+        options: [
+          { text: "逻辑、客观分析和公平原则", dimension: "T" },
+          { text: "感受、价值观以及对他人的影响", dimension: "F" }
+        ]
+      },
+      {
+        text: "面对工作或生活安排时，你更喜欢：",
+        options: [
+          { text: "有明确计划，按步骤推进，事情尽量提前确定", dimension: "J" },
+          { text: "保持灵活性，视情况调整，喜欢保留选择余地", dimension: "P" }
+        ]
+      },
+      {
+        text: "当你遇到新的人或环境时，你通常：",
+        options: [
+          { text: "容易主动打开话题，迅速融入", dimension: "E" },
+          { text: "先观察一阵，再慢慢参与", dimension: "I" }
+        ]
+      },
+      {
+        text: "学习新知识时，你更喜欢：",
+        options: [
+          { text: "循序渐进地掌握具体方法和实例", dimension: "S" },
+          { text: "先理解背后的原理、模式和联系", dimension: "N" }
+        ]
+      },
+      {
+        text: "当朋友向你倾诉烦恼时，你更可能：",
+        options: [
+          { text: "帮助他分析问题并给出解决方案", dimension: "T" },
+          { text: "先理解和安慰他的感受，让他感到被支持", dimension: "F" }
+        ]
+      },
+      {
+        text: "对于截止日期和任务管理，你通常：",
+        options: [
+          { text: "喜欢尽早开始，提前完成，避免最后时刻赶工", dimension: "J" },
+          { text: "常常临近截止时效率更高，更能激发状态", dimension: "P" }
+        ]
+      },
+      {
+        text: "周末安排中，你更倾向于：",
+        options: [
+          { text: "与朋友相聚、外出活动，生活更热闹", dimension: "E" },
+          { text: "独处或与少数亲近的人相处，享受安静", dimension: "I" }
+        ]
+      },
+      {
+        text: "你更相信：",
+        options: [
+          { text: "经验和事实，脚踏实地更可靠", dimension: "S" },
+          { text: "直觉和灵感，跳出现有框架去思考", dimension: "N" }
+        ]
+      },
+      {
+        text: "在团队中出现冲突时，你更倾向于：",
+        options: [
+          { text: "从理性和规则出发，寻找最合理的方案", dimension: "T" },
+          { text: "考虑每个人的感受，努力维持关系和谐", dimension: "F" }
+        ]
+      },
+      {
+        text: "旅行时，你更喜欢：",
+        options: [
+          { text: "提前规划路线、住宿和时间安排", dimension: "J" },
+          { text: "边走边看，随心决定下一站", dimension: "P" }
+        ]
+      }
+    ];
 
-    <section id="research">
-      <div class="grid two-col">
-        <div class="card">
-          <h2 class="section-title">Research Interests</h2>
-          <div class="pill-list">
-            <div class="pill">Network Coding</div>
-            <div class="pill">Information Theory</div>
-            <div class="pill">Communication Networks</div>
-            <div class="pill">Finite Fields</div>
-            <div class="pill">Combinatorial Optimization</div>
-            <div class="pill">Symbolic Computation</div>
-          </div>
-          <p style="margin-top:16px;">
-            I am particularly interested in algebraic and combinatorial methods for network
-            coding, subset information recovery, and optimization problems arising from
-            communication systems.
-          </p>
-        </div>
+    const mbtiData = {
+      INTJ: {
+        name: "建筑师",
+        desc: "独立、理性而富有远见，喜欢从整体上思考问题，善于制定长期计划和系统化地解决复杂挑战。",
+        strength: "战略思维强、独立自主、擅长分析与规划、追求高标准。",
+        weakness: "可能显得疏离或过于苛求，不太容易表达情感。"
+      },
+      INTP: {
+        name: "逻辑学家",
+        desc: "热爱思考与探索，喜欢分析理论和概念，常常沉浸于新点子和抽象世界中。",
+        strength: "好奇心强、逻辑清晰、富有创造力、善于发现本质。",
+        weakness: "可能显得散漫，执行力不足，不喜欢繁琐规则。"
+      },
+      ENTJ: {
+        name: "指挥官",
+        desc: "果断、自信、具有领导力，善于制定目标和高效组织资源推动结果达成。",
+        strength: "目标明确、善于统筹、执行力强、敢于承担责任。",
+        weakness: "可能过于强势，忽略他人感受或耐心不足。"
+      },
+      ENTP: {
+        name: "辩论家",
+        desc: "聪明、机智、富有想象力，喜欢挑战常规、探索新点子并享受思维碰撞。",
+        strength: "创新能力强、反应快、善于沟通、适应力高。",
+        weakness: "可能不耐烦、容易分心，执行细节不足。"
+      },
+      INFJ: {
+        name: "提倡者",
+        desc: "理想主义且富有洞察力，关心他人和社会意义，常常追求内心价值与长期愿景的一致。",
+        strength: "有同理心、洞察深刻、责任感强、追求意义。",
+        weakness: "可能过度理想化，对自己和他人要求过高。"
+      },
+      INFP: {
+        name: "调停者",
+        desc: "温柔、真诚、富有想象力，重视内心价值与个人信念，喜欢帮助他人并追求自我表达。",
+        strength: "有同情心、富有创造力、理想主义、真诚。",
+        weakness: "容易敏感、回避冲突，执行现实任务时可能拖延。"
+      },
+      ENFJ: {
+        name: "主人公",
+        desc: "热情、善于沟通，喜欢激励和支持他人，在团队中常扮演组织者和鼓舞者的角色。",
+        strength: "感染力强、同理心高、擅长协调、乐于助人。",
+        weakness: "可能过度在意他人评价，忽略自身需求。"
+      },
+      ENFP: {
+        name: "竞选者",
+        desc: "充满热情和好奇心，善于看到人与事的潜力，喜欢自由、创意和真诚的人际连接。",
+        strength: "富有活力、创意丰富、沟通能力强、热心真诚。",
+        weakness: "可能注意力分散，缺乏持续性和细节耐心。"
+      },
+      ISTJ: {
+        name: "物流师",
+        desc: "务实、可靠、讲求责任与秩序，重视事实和规则，做事认真稳妥。",
+        strength: "踏实、细致、责任心强、执行稳定。",
+        weakness: "可能过于保守，不喜欢变化，表达情绪较少。"
+      },
+      ISFJ: {
+        name: "守卫者",
+        desc: "细心、忠诚、体贴，愿意通过实际行动关心和帮助他人，重视安全感和稳定关系。",
+        strength: "可靠、耐心、善于照顾他人、责任感强。",
+        weakness: "容易压抑自己，过度付出，不善于拒绝。"
+      },
+      ESTJ: {
+        name: "总经理",
+        desc: "高效、务实、重视秩序与规则，善于组织资源和管理事务，追求结果与效率。",
+        strength: "执行力强、善于管理、果断、讲原则。",
+        weakness: "可能显得强硬或不够灵活，较少关注情绪。"
+      },
+      ESFJ: {
+        name: "执政官",
+        desc: "热心、合作、关心他人，善于维护群体和谐，常常承担照顾和协调的角色。",
+        strength: "乐于助人、善于合作、责任感强、关注细节。",
+        weakness: "容易受他人评价影响，过度迎合或担心冲突。"
+      },
+      ISTP: {
+        name: "鉴赏家",
+        desc: "冷静、灵活、善于动手与解决现实问题，喜欢探索事物运作原理并随机应变。",
+        strength: "应变能力强、务实、独立、善于分析和操作。",
+        weakness: "可能显得冷淡，不喜欢长时间承诺或规划。"
+      },
+      ISFP: {
+        name: "探险家",
+        desc: "温和、敏感、热爱自由和体验，喜欢按自己的节奏生活并通过行动表达自我。",
+        strength: "真诚、审美感强、适应力好、善于感受当下。",
+        weakness: "不喜欢压力和冲突，长期规划能力较弱。"
+      },
+      ESTP: {
+        name: "企业家",
+        desc: "精力充沛、果断、善于应对变化，喜欢行动和刺激，敢于冒险并抓住机会。",
+        strength: "行动力强、适应快、现实果断、善于社交。",
+        weakness: "可能冲动、缺乏耐心，不爱长期规划。"
+      },
+      ESFP: {
+        name: "表演者",
+        desc: "外向、乐观、热爱生活，喜欢与人互动并享受当下，能够为 окружающие 带来活力与快乐。",
+        strength: "热情、友善、乐于分享、感染力强。",
+        weakness: "可能较情绪化，容易分散注意力，回避严肃规划。"
+      }
+    };
 
-        <div class="card">
-          <h2 class="section-title">Education</h2>
-          <div class="item">
-            <div class="item-title">Beijing Normal University</div>
-            <div class="item-meta">B.S. in Mathematics and Applied Mathematics</div>
-            <div class="muted">Expected graduation: 2026</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    let currentQuestion = 0;
+    let answers = new Array(questions.length).fill(null);
 
-    <section id="projects">
-      <div class="card">
-        <h2 class="section-title">Selected Projects</h2>
+    function startTest() {
+      document.getElementById("intro").style.display = "none";
+      document.getElementById("testSection").style.display = "block";
+      renderQuestion();
+    }
 
-        <div class="item">
-          <div class="item-title">Binary Linear Network Coding for Partial Information Recovery</div>
-          <div class="item-meta">Research Project</div>
-          <div>
-            Studied a computational framework for binary linear network coding with an emphasis
-            on subset or partial information recovery, combining algebraic modeling and
-            optimization-based design.
-          </div>
-        </div>
+    function renderQuestion() {
+      const q = questions[currentQuestion];
+      document.getElementById("questionNumber").textContent = `问题 ${currentQuestion + 1}`;
+      document.getElementById("questionText").textContent = q.text;
 
-        <div class="item">
-          <div class="item-title">Symbolic and Optimization Methods over GF(2)</div>
-          <div class="item-meta">Algorithm / Implementation</div>
-          <div>
-            Explored feasible-solution search and structure optimization for coding problems
-            over finite fields, with attention to complexity and computational efficiency.
-          </div>
-        </div>
+      const optionsEl = document.getElementById("options");
+      optionsEl.innerHTML = "";
 
-        <div class="item">
-          <div class="item-title">Mathematical Modeling and Programming Practice</div>
-          <div class="item-meta">Python / C++</div>
-          <div>
-            Worked on mathematical modeling, algorithmic implementation, and formal analysis
-            using Python and C++.
-          </div>
-        </div>
-      </div>
-    </section>
+      q.options.forEach((opt, index) => {
+        const label = document.createElement("label");
+        label.className = "option";
 
-    <section id="cv">
-      <div class="grid two-col">
-        <div class="card">
-          <h2 class="section-title">CV</h2>
-          <p>
-            You can place your CV here as a PDF file and link it directly.
-          </p>
-          <p>
-            Example:
-            <a href="cv.pdf" target="_blank" rel="noopener noreferrer">Download CV (PDF)</a>
-          </p>
-          <p class="muted">
-            把你的简历文件命名为 <code>cv.pdf</code>，上传到仓库根目录即可。
-          </p>
-        </div>
+        if (answers[currentQuestion] === index) {
+          label.classList.add("selected");
+        }
 
-        <div class="card">
-          <h2 class="section-title">Skills</h2>
-          <ul>
-            <li>Python</li>
-            <li>C++</li>
-            <li>LaTeX</li>
-            <li>Git / GitHub</li>
-            <li>Mathematical Modeling</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+        label.innerHTML = `
+          <input type="radio" name="option" value="${index}">
+          <span class="radio"></span>
+          <span>${opt.text}</span>
+        `;
 
-    <section id="contact">
-      <div class="card">
-        <h2 class="section-title">Contact</h2>
-        <div class="contact-list">
-          <div>Email: <a href="mailto:your_email@example.com">your_email@example.com</a></div>
-          <div>GitHub: <a href="https://github.com/1264369313" target="_blank" rel="noopener noreferrer">github.com/1264369313</a></div>
-          <div>Homepage: <a href="https://wj384768.me" target="_blank" rel="noopener noreferrer">wj384768.me</a></div>
-        </div>
-        <p class="muted" style="margin-top:14px;">
-          你可以把邮箱改成自己的，也可以继续加上知乎、Google Scholar、ORCID、博客等链接。
-        </p>
-      </div>
-    </section>
-  </main>
+        label.addEventListener("click", () => {
+          answers[currentQuestion] = index;
+          renderQuestion();
+        });
 
-  <footer>
-    <div class="container">
-      © 2026 Wang Jue. All rights reserved.
-    </div>
-  </footer>
+        optionsEl.appendChild(label);
+      });
+
+      const progress = ((currentQuestion + 1) / questions.length) * 100;
+      document.getElementById("progressBar").style.width = `${progress}%`;
+      document.getElementById("progressLabel").textContent = `第 ${currentQuestion + 1} / ${questions.length} 题`;
+      document.getElementById("progressPercent").textContent = `${Math.round(progress)}%`;
+
+      document.getElementById("prevBtn").style.visibility = currentQuestion === 0 ? "hidden" : "visible";
+      document.getElementById("nextBtn").textContent = currentQuestion === questions.length - 1 ? "查看结果" : "下一题";
+    }
+
+    function nextQuestion() {
+      if (answers[currentQuestion] === null) {
+        alert("请选择一个选项后再继续。");
+        return;
+      }
+
+      if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        renderQuestion();
+      } else {
+        showResult();
+      }
+    }
+
+    function prevQuestion() {
+      if (currentQuestion > 0) {
+        currentQuestion--;
+        renderQuestion();
+      }
+    }
+
+    function showResult() {
+      const scores = {
+        E: 0, I: 0,
+        S: 0, N: 0,
+        T: 0, F: 0,
+        J: 0, P: 0
+      };
+
+      questions.forEach((q, i) => {
+        const selectedIndex = answers[i];
+        const dimension = q.options[selectedIndex].dimension;
+        scores[dimension]++;
+      });
+
+      const type =
+        (scores.E >= scores.I ? "E" : "I") +
+        (scores.S >= scores.N ? "S" : "N") +
+        (scores.T >= scores.F ? "T" : "F") +
+        (scores.J >= scores.P ? "J" : "P");
+
+      const result = mbtiData[type];
+
+      document.getElementById("mbtiType").textContent = type;
+      document.getElementById("mbtiName").textContent = result.name;
+      document.getElementById("mbtiDesc").textContent = result.desc;
+      document.getElementById("mbtiStrength").textContent = result.strength;
+      document.getElementById("mbtiWeakness").textContent = result.weakness;
+
+      renderDimension("ei", "外向 E", "内向 I", scores.E, scores.I);
+      renderDimension("sn", "实感 S", "直觉 N", scores.S, scores.N);
+      renderDimension("tf", "思考 T", "情感 F", scores.T, scores.F);
+      renderDimension("jp", "判断 J", "知觉 P", scores.J, scores.P);
+
+      document.getElementById("testSection").style.display = "none";
+      document.getElementById("resultSection").style.display = "block";
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderDimension(prefix, left, right, leftValue, rightValue) {
+      const total = leftValue + rightValue;
+      const leftPercent = Math.round((leftValue / total) * 100);
+      const rightPercent = 100 - leftPercent;
+
+      let dominant = leftValue >= rightValue
+        ? `${left} ${leftPercent}%`
+        : `${right} ${rightPercent}%`;
+
+      document.getElementById(`${prefix}Label`).textContent = `${left} / ${right}`;
+      document.getElementById(`${prefix}Value`).textContent = dominant;
+      document.getElementById(`${prefix}Bar`).style.width = `${Math.max(leftPercent, rightPercent)}%`;
+    }
+
+    function restartTest() {
+      currentQuestion = 0;
+      answers = new Array(questions.length).fill(null);
+      document.getElementById("resultSection").style.display = "none";
+      document.getElementById("intro").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  </script>
 </body>
 </html>
