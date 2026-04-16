@@ -3,10 +3,407 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>wj384768</title>
+  <title>Wang Jue | Personal Homepage</title>
+  <meta name="description" content="Wang Jue's personal homepage" />
+  <style>
+    :root {
+      --bg: #f7f9fc;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --line: #e5e7eb;
+      --accent: #2563eb;
+      --accent-hover: #1d4ed8;
+      --max-width: 960px;
+      --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+      --radius: 18px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Hiragino Sans GB", "Microsoft YaHei", Arial, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.7;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--accent-hover);
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    header {
+      background: linear-gradient(135deg, #eef4ff 0%, #f9fbff 100%);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px 0;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--accent);
+    }
+
+    .hero {
+      padding: 68px 0 54px;
+    }
+
+    .hero-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 38px 30px;
+      box-shadow: var(--shadow);
+    }
+
+    .tag {
+      display: inline-block;
+      margin-bottom: 16px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #eaf1ff;
+      color: var(--accent);
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      line-height: 1.15;
+    }
+
+    .subtitle {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1.05rem;
+      max-width: 760px;
+    }
+
+    .hero-buttons {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 600;
+      border: 1px solid var(--line);
+      background: white;
+      color: var(--text);
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .btn.primary:hover {
+      background: var(--accent-hover);
+      color: white;
+    }
+
+    section {
+      padding: 28px 0;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin: 0 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .grid {
+      display: grid;
+      gap: 18px;
+    }
+
+    .two-col {
+      grid-template-columns: 1.2fr 0.8fr;
+    }
+
+    .item + .item {
+      margin-top: 18px;
+      padding-top: 18px;
+      border-top: 1px solid var(--line);
+    }
+
+    .item-title {
+      margin: 0 0 6px;
+      font-size: 1.08rem;
+      font-weight: 700;
+    }
+
+    .item-meta {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    ul {
+      margin: 10px 0 0 20px;
+      padding: 0;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .pill {
+      padding: 8px 12px;
+      background: #f3f6fb;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font-size: 0.92rem;
+      color: #374151;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    footer {
+      padding: 28px 0 48px;
+      color: var(--muted);
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    @media (max-width: 780px) {
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-card {
+        padding: 28px 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>你好，我是王珏</h1>
-  <p>这是我的个人主页。</p>
+  <header>
+    <div class="container">
+      <nav class="nav">
+        <div class="brand">Wang Jue</div>
+        <div class="nav-links">
+          <a href="#about">About</a>
+          <a href="#research">Research</a>
+          <a href="#projects">Projects</a>
+          <a href="#cv">CV</a>
+          <a href="#contact">Contact</a>
+        </div>
+      </nav>
+
+      <div class="hero">
+        <div class="hero-card">
+          <div class="tag">Personal Homepage</div>
+          <h1>Hi, I'm Wang Jue.</h1>
+          <p class="subtitle">
+            I am a senior undergraduate student in Mathematics and Applied Mathematics at
+            Beijing Normal University. My research interests include network coding,
+            information theory, and related problems in communication networks.
+          </p>
+          <div class="hero-buttons">
+            <a class="btn primary" href="#research">View Research</a>
+            <a class="btn" href="#contact">Contact Me</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="about">
+      <div class="card">
+        <h2 class="section-title">About</h2>
+        <p>
+          Welcome to my personal homepage. I am currently completing my undergraduate studies
+          at Beijing Normal University and will continue my graduate studies in the area of
+          communications. My academic interests mainly focus on network coding, information
+          recovery, combinatorial optimization, and symbolic computation over finite fields.
+        </p>
+        <p>
+          This website collects my research interests, selected projects, and contact
+          information. You may also use this page as an entry point to my CV, GitHub
+          repositories, and future academic updates.
+        </p>
+      </div>
+    </section>
+
+    <section id="research">
+      <div class="grid two-col">
+        <div class="card">
+          <h2 class="section-title">Research Interests</h2>
+          <div class="pill-list">
+            <div class="pill">Network Coding</div>
+            <div class="pill">Information Theory</div>
+            <div class="pill">Communication Networks</div>
+            <div class="pill">Finite Fields</div>
+            <div class="pill">Combinatorial Optimization</div>
+            <div class="pill">Symbolic Computation</div>
+          </div>
+          <p style="margin-top:16px;">
+            I am particularly interested in algebraic and combinatorial methods for network
+            coding, subset information recovery, and optimization problems arising from
+            communication systems.
+          </p>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Education</h2>
+          <div class="item">
+            <div class="item-title">Beijing Normal University</div>
+            <div class="item-meta">B.S. in Mathematics and Applied Mathematics</div>
+            <div class="muted">Expected graduation: 2026</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="card">
+        <h2 class="section-title">Selected Projects</h2>
+
+        <div class="item">
+          <div class="item-title">Binary Linear Network Coding for Partial Information Recovery</div>
+          <div class="item-meta">Research Project</div>
+          <div>
+            Studied a computational framework for binary linear network coding with an emphasis
+            on subset or partial information recovery, combining algebraic modeling and
+            optimization-based design.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-title">Symbolic and Optimization Methods over GF(2)</div>
+          <div class="item-meta">Algorithm / Implementation</div>
+          <div>
+            Explored feasible-solution search and structure optimization for coding problems
+            over finite fields, with attention to complexity and computational efficiency.
+          </div>
+        </div>
+
+        <div class="item">
+          <div class="item-title">Mathematical Modeling and Programming Practice</div>
+          <div class="item-meta">Python / C++</div>
+          <div>
+            Worked on mathematical modeling, algorithmic implementation, and formal analysis
+            using Python and C++.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="cv">
+      <div class="grid two-col">
+        <div class="card">
+          <h2 class="section-title">CV</h2>
+          <p>
+            You can place your CV here as a PDF file and link it directly.
+          </p>
+          <p>
+            Example:
+            <a href="cv.pdf" target="_blank" rel="noopener noreferrer">Download CV (PDF)</a>
+          </p>
+          <p class="muted">
+            把你的简历文件命名为 <code>cv.pdf</code>，上传到仓库根目录即可。
+          </p>
+        </div>
+
+        <div class="card">
+          <h2 class="section-title">Skills</h2>
+          <ul>
+            <li>Python</li>
+            <li>C++</li>
+            <li>LaTeX</li>
+            <li>Git / GitHub</li>
+            <li>Mathematical Modeling</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="card">
+        <h2 class="section-title">Contact</h2>
+        <div class="contact-list">
+          <div>Email: <a href="mailto:your_email@example.com">your_email@example.com</a></div>
+          <div>GitHub: <a href="https://github.com/1264369313" target="_blank" rel="noopener noreferrer">github.com/1264369313</a></div>
+          <div>Homepage: <a href="https://wj384768.me" target="_blank" rel="noopener noreferrer">wj384768.me</a></div>
+        </div>
+        <p class="muted" style="margin-top:14px;">
+          你可以把邮箱改成自己的，也可以继续加上知乎、Google Scholar、ORCID、博客等链接。
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      © 2026 Wang Jue. All rights reserved.
+    </div>
+  </footer>
 </body>
 </html>
