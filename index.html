@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <title>面包TI｜测测你是哪种上头包</title>
+  <meta name="description" content="面包TI：黄霄云粉丝向测试，测测你是哪种上头包。" />
+
   <style>
     :root{
       --bg:#fff9f6;
@@ -101,13 +104,15 @@
       text-align:center;
     }
 
-    .intro h2{
+    .intro h2,
+    .bgm-section h2{
       margin-top:2px;
       color:var(--brown);
       font-size:1.5rem;
     }
 
-    .intro p{
+    .intro p,
+    .bgm-section p{
       margin:10px auto;
       max-width:650px;
       color:var(--muted);
@@ -152,7 +157,96 @@
       background:#fff5f8;
     }
 
-    .test-section, .result-section{
+    .test-section, .result-section, .bgm-section{
+      display:none;
+    }
+
+    .bgm-section{
+      text-align:center;
+    }
+
+    .bgm-tip{
+      color:var(--muted);
+      margin:8px auto 18px;
+      max-width:620px;
+    }
+
+    .bgm-grid{
+      display:grid;
+      grid-template-columns:repeat(2, minmax(0, 1fr));
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .bgm-card{
+      text-align:left;
+      background:#fffafa;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:16px 42px 16px 16px;
+      cursor:pointer;
+      transition:.18s ease;
+      position:relative;
+    }
+
+    .bgm-card:hover{
+      transform:translateY(-1px);
+      background:#fff2f6;
+    }
+
+    .bgm-card.selected{
+      border-color:var(--rose);
+      background:#fff0f5;
+      box-shadow:0 6px 16px rgba(214,122,149,.16);
+    }
+
+    .bgm-name{
+      color:var(--brown);
+      font-weight:800;
+      margin-bottom:4px;
+    }
+
+    .bgm-desc{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.7;
+    }
+
+    .bgm-check{
+      position:absolute;
+      right:14px;
+      top:14px;
+      color:var(--rose);
+      font-weight:800;
+      display:none;
+    }
+
+    .bgm-card.selected .bgm-check{
+      display:block;
+    }
+
+    .bgm-actions{
+      display:flex;
+      justify-content:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:20px;
+    }
+
+    .music-toggle{
+      position:fixed;
+      right:18px;
+      bottom:18px;
+      z-index:99;
+      width:48px;
+      height:48px;
+      border-radius:50%;
+      border:1px solid var(--line);
+      background:#fff;
+      color:var(--rose);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      font-size:20px;
       display:none;
     }
 
@@ -187,6 +281,7 @@
       font-size:14px;
       color:var(--rose);
       margin-bottom:8px;
+      margin-top:18px;
     }
 
     .question-text{
@@ -258,9 +353,28 @@
       gap:10px;
     }
 
+    .result-card{
+      background:
+        linear-gradient(180deg, rgba(255,246,249,.95), rgba(255,253,251,.98)),
+        var(--paper);
+      overflow:hidden;
+    }
+
+    .result-card::after{
+      content:"🍞";
+      position:absolute;
+      right:18px;
+      top:14px;
+      font-size:42px;
+      opacity:.16;
+      transform:rotate(10deg);
+    }
+
     .result-header{
       text-align:center;
       margin-bottom:18px;
+      position:relative;
+      z-index:1;
     }
 
     .result-header .small{
@@ -269,11 +383,12 @@
     }
 
     .result-name{
-      font-size:clamp(2rem, 6vw, 3.2rem);
+      font-size:clamp(2.2rem, 7vw, 4rem);
       color:var(--rose);
       margin:10px 0 4px;
       letter-spacing:1px;
-      font-weight:800;
+      font-weight:900;
+      line-height:1.15;
     }
 
     .result-tags{
@@ -297,8 +412,8 @@
       margin:12px auto 0;
       max-width:700px;
       color:var(--brown);
-      font-size:1.08rem;
-      font-weight:600;
+      font-size:1.16rem;
+      font-weight:800;
     }
 
     .result-desc{
@@ -395,6 +510,29 @@
       margin-top:4px;
     }
 
+    @media print{
+      body{
+        background:#fff9f6;
+      }
+
+      .hero,
+      .footer,
+      .result-actions,
+      .music-toggle{
+        display:none !important;
+      }
+
+      .wrap{
+        width:100%;
+        padding:0;
+      }
+
+      .card{
+        box-shadow:none;
+        margin:0;
+      }
+    }
+
     @media (max-width: 720px){
       .card{
         padding:18px 16px;
@@ -404,6 +542,7 @@
         font-size:1.1rem;
       }
 
+      .bgm-grid,
       .result-grid{
         grid-template-columns:1fr;
       }
@@ -416,9 +555,17 @@
         width:100%;
         justify-content:space-between;
       }
+
+      .music-toggle{
+        width:46px;
+        height:46px;
+        right:14px;
+        bottom:14px;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="wrap">
     <section class="hero">
@@ -432,12 +579,28 @@
       <h2>欢迎来到面包宇宙</h2>
       <p>
         你是反复回放高音的“高音回放怪”，还是认真整理物料的“霄云资料夹”？<br>
-        通过 12 道题，看看你更像哪一种上头包。
+        通过一首 BGM 和 12 道题，看看你更像哪一种上头包。
       </p>
       <p>
         本测试是粉丝向小测试，结果仅供娱乐，但也许会很准。
       </p>
       <button class="start-btn" onclick="startTest()">开始测包</button>
+    </section>
+
+    <section class="card bgm-section" id="bgmSection">
+      <div class="decor">🎧 ✦ 🍞 ✦ ☁️</div>
+      <h2>先选一首面包 BGM</h2>
+      <p class="bgm-tip">
+        这首歌会作为你的测试背景音乐，也会稍微影响最后的面包TI结果。
+        如果不想播放音乐，可以选择“静音包”。
+      </p>
+
+      <div class="bgm-grid" id="bgmGrid"></div>
+
+      <div class="bgm-actions">
+        <button class="ghost-btn" onclick="backToIntro()">返回</button>
+        <button class="nav-btn" onclick="confirmBgm()">选好了，开始测包</button>
+      </div>
     </section>
 
     <section class="test-section" id="testSection">
@@ -467,7 +630,7 @@
     </section>
 
     <section class="result-section" id="resultSection">
-      <div class="card">
+      <div class="card result-card">
         <div class="result-header">
           <div class="small">你的面包TI结果是</div>
           <div class="result-name" id="resultName">高音回放怪</div>
@@ -534,13 +697,61 @@
     </div>
   </div>
 
+  <audio id="bgmAudio" loop preload="auto"></audio>
+  <button class="music-toggle" id="musicToggle" onclick="toggleMusic()">🔊</button>
+
   <script>
+    const bgmOptions = [
+      {
+        id: "xingchen",
+        name: "《星辰大海》",
+        desc: "大气、明亮、适合开场就进入面包宇宙。",
+        src: "music/xingchen-dahai.mp3",
+        bias: ["B", "C", "F", "H"]
+      },
+      {
+        id: "dakai",
+        name: "《打开》",
+        desc: "更燃、更舞台，适合高能上头型。",
+        src: "music/dakai.mp3",
+        bias: ["B", "D", "F", "H"]
+      },
+      {
+        id: "yiwannian",
+        name: "《要不然我们就这样一万年》",
+        desc: "宿命感、长情感，适合深夜循环型。",
+        src: "music/yiwannian.mp3",
+        bias: ["A", "C", "E", "G"]
+      },
+      {
+        id: "mengfan",
+        name: "《梦返》",
+        desc: "温柔、氛围、回忆感，适合收藏型。",
+        src: "music/mengfan.mp3",
+        bias: ["A", "D", "E", "G"]
+      },
+      {
+        id: "siji",
+        name: "《四季与你》",
+        desc: "陪伴感、温柔感，适合云端陪跑型。",
+        src: "music/siji-yuni.mp3",
+        bias: ["A", "D", "E", "H"]
+      },
+      {
+        id: "silent",
+        name: "静音包",
+        desc: "不播放背景音乐，只安静测包。",
+        src: "",
+        bias: []
+      }
+    ];
+
     const questions = [
       {
         text: "你点开一个黄霄云的新舞台时，最期待的是：",
         options: [
-          { text: "那种越听越香的细腻推进", dim: "A" }, // 细糠
-          { text: "一开口就把人掀起来的高能瞬间", dim: "B" } // 爆灯
+          { text: "那种越听越香的细腻推进", dim: "A" },
+          { text: "一开口就把人掀起来的高能瞬间", dim: "B" }
         ]
       },
       {
@@ -561,8 +772,8 @@
       {
         text: "你第一次真正被吸引，通常是因为：",
         options: [
-          { text: "某首歌或某个舞台本身太好听", dim: "C" }, // 入歌
-          { text: "黄霄云这个人的声音状态和气质太抓人", dim: "D" } // 入云
+          { text: "某首歌或某个舞台本身太好听", dim: "C" },
+          { text: "黄霄云这个人的声音状态和气质太抓人", dim: "D" }
         ]
       },
       {
@@ -583,8 +794,8 @@
       {
         text: "听到一首特别戳你的歌，你更像：",
         options: [
-          { text: "先自己循环，不急着说", dim: "E" }, // 闷嗑
-          { text: "马上转发，“你快听这个”", dim: "F" } // 开麦
+          { text: "先自己循环，不急着说", dim: "E" },
+          { text: "马上转发，“你快听这个”", dim: "F" }
         ]
       },
       {
@@ -605,8 +816,8 @@
       {
         text: "你的追更方式更像：",
         options: [
-          { text: "存物料、补舞台、做整理", dim: "G" }, // 补档
-          { text: "蹲首发、蹲直播、蹲实时动态", dim: "H" } // 蹲首
+          { text: "存物料、补舞台、做整理", dim: "G" },
+          { text: "蹲首发、蹲直播、蹲实时动态", dim: "H" }
         ]
       },
       {
@@ -822,11 +1033,95 @@
 
     let current = 0;
     let answers = new Array(questions.length).fill(null);
+    let selectedBgm = null;
+    let musicMuted = false;
 
     function startTest() {
       document.getElementById("intro").style.display = "none";
+      document.getElementById("bgmSection").style.display = "block";
+      renderBgmOptions();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function renderBgmOptions() {
+      const grid = document.getElementById("bgmGrid");
+      grid.innerHTML = "";
+
+      bgmOptions.forEach(option => {
+        const card = document.createElement("div");
+        card.className = "bgm-card" + (selectedBgm && selectedBgm.id === option.id ? " selected" : "");
+        card.innerHTML = `
+          <div class="bgm-check">✓</div>
+          <div class="bgm-name">${option.name}</div>
+          <div class="bgm-desc">${option.desc}</div>
+        `;
+
+        card.addEventListener("click", () => {
+          selectedBgm = option;
+          renderBgmOptions();
+        });
+
+        grid.appendChild(card);
+      });
+    }
+
+    function backToIntro() {
+      document.getElementById("bgmSection").style.display = "none";
+      document.getElementById("intro").style.display = "block";
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function confirmBgm() {
+      if (!selectedBgm) {
+        alert("先选一首 BGM，或者选择“静音包”～");
+        return;
+      }
+
+      applyBgm();
+
+      document.getElementById("bgmSection").style.display = "none";
       document.getElementById("testSection").style.display = "block";
       renderQuestion();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function applyBgm() {
+      const audio = document.getElementById("bgmAudio");
+      const toggle = document.getElementById("musicToggle");
+
+      if (!selectedBgm || !selectedBgm.src) {
+        audio.pause();
+        audio.removeAttribute("src");
+        toggle.style.display = "none";
+        return;
+      }
+
+      audio.src = selectedBgm.src;
+      audio.volume = 0.35;
+      audio.muted = false;
+      musicMuted = false;
+
+      audio.play().catch(() => {
+        console.log("浏览器阻止了自动播放，用户再次点击音乐按钮即可播放。");
+      });
+
+      toggle.textContent = "🔊";
+      toggle.style.display = "block";
+    }
+
+    function toggleMusic() {
+      const audio = document.getElementById("bgmAudio");
+      const toggle = document.getElementById("musicToggle");
+
+      if (!audio.src) return;
+
+      musicMuted = !musicMuted;
+      audio.muted = musicMuted;
+      toggle.textContent = musicMuted ? "🔇" : "🔊";
+
+      if (!musicMuted && audio.paused) {
+        audio.play().catch(() => {});
+      }
     }
 
     function renderQuestion() {
@@ -882,6 +1177,25 @@
       }
     }
 
+    function chooseByScore(score, leftKey, rightKey, bgmBias) {
+      const left = score[leftKey];
+      const right = score[rightKey];
+
+      if (Math.abs(left - right) >= 3) {
+        return left > right ? leftKey : rightKey;
+      }
+
+      if (bgmBias.includes(leftKey) && !bgmBias.includes(rightKey)) {
+        return leftKey;
+      }
+
+      if (bgmBias.includes(rightKey) && !bgmBias.includes(leftKey)) {
+        return rightKey;
+      }
+
+      return left >= right ? leftKey : rightKey;
+    }
+
     function showResult() {
       const score = { A:0, B:0, C:0, D:0, E:0, F:0, G:0, H:0 };
 
@@ -890,11 +1204,13 @@
         score[dim]++;
       });
 
+      const bgmBias = selectedBgm ? selectedBgm.bias : [];
+
       const code =
-        (score.A >= score.B ? "A" : "B") +
-        (score.C >= score.D ? "C" : "D") +
-        (score.E >= score.F ? "E" : "F") +
-        (score.G >= score.H ? "G" : "H");
+        chooseByScore(score, "A", "B", bgmBias) +
+        chooseByScore(score, "C", "D", bgmBias) +
+        chooseByScore(score, "E", "F", bgmBias) +
+        chooseByScore(score, "G", "H", bgmBias);
 
       const result = resultMap[code];
 
@@ -933,7 +1249,7 @@
 
     function setBar(barId, labelId, left, right, leftName, rightName) {
       const total = left + right;
-      const leftPercent = Math.round((left / total) * 100);
+      const leftPercent = total === 0 ? 50 : Math.round((left / total) * 100);
       const rightPercent = 100 - leftPercent;
       const dominant = left >= right ? `${leftName} ${leftPercent}%` : `${rightName} ${rightPercent}%`;
 
@@ -944,8 +1260,19 @@
     function restartTest() {
       current = 0;
       answers = new Array(questions.length).fill(null);
+      selectedBgm = null;
+      musicMuted = false;
+
+      const audio = document.getElementById("bgmAudio");
+      audio.pause();
+      audio.removeAttribute("src");
+
+      document.getElementById("musicToggle").style.display = "none";
       document.getElementById("resultSection").style.display = "none";
+      document.getElementById("testSection").style.display = "none";
+      document.getElementById("bgmSection").style.display = "none";
       document.getElementById("intro").style.display = "block";
+
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   </script>
